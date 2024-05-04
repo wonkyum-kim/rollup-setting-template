@@ -24,5 +24,8 @@
     "tslib": "^2.6.2",
     "typescript": "^5.4.5"
   },
-  "browserslist": "last 2 versions, not dead, > 0.25%"
+  "browserslist": "last 2 versions, not dead, > 0.25%",
+  "dependencies": {
+    "@toss/utils": "^1.5.0"
+  }
 }

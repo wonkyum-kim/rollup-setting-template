@@ -2,6 +2,9 @@ import path from 'path';
 import dts from 'rollup-plugin-dts';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
+import commonjs from '@rollup/plugin-commonjs';
+import terser from '@rollup/plugin-terser';
+import { babel } from '@rollup/plugin-babel';
 
 const extensions = ['.js', '.ts', '.tsx'];
 
@@ -18,10 +21,13 @@ function buildJS(input, output, module) {
     },
     external,
     plugins: [
+      commonjs(),
       resolve({ extensions }),
       typescript({
         declaration: false,
       }),
+      babel({ babelHelpers: 'bundled', extensions }),
+      terser(),
     ],
   };
 }

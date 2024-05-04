@@ -7,6 +7,6 @@ ESM과 CJS 모두 출력한다.
 ## TODO
 
 - [ ] package.json exports 추가
-- [ ] babel
-- [ ] terser
-- [ ] plugin commonjs
+- [x] babel
+- [x] terser
+- [x] plugin commonjs

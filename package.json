@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf dist/* && rm -rf types/* && tsc && rollup -c"
+    "build": "rm -rf dist/* && tsc && rollup -c && rm -rf types"
   },
   "keywords": [],
   "author": "",

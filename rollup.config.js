@@ -5,20 +5,27 @@ import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
 import terser from '@rollup/plugin-terser';
 import { babel } from '@rollup/plugin-babel';
+import pkg from './package.json' assert { type: 'json' };
 
 const extensions = ['.js', '.ts', '.tsx'];
 
-const external = [
-  /* ... */
-];
+const external = Object.keys(pkg.dependencies);
 
-function buildJS(input, output, module) {
+function buildJS(input) {
+  const parsed = path.parse(input);
+
   return {
-    input,
-    output: {
-      file: output,
-      format: module,
-    },
+    input: `src/${input}`,
+    output: [
+      {
+        file: `dist/cjs/${parsed.dir}/${parsed.name}.cjs`,
+        format: 'cjs',
+      },
+      {
+        file: `dist/esm/${parsed.dir}/${parsed.name}.js`,
+        format: 'esm',
+      },
+    ],
     external,
     plugins: [
       commonjs(),
@@ -30,26 +37,6 @@ function buildJS(input, output, module) {
       terser(),
     ],
   };
-}
-
-// CJS 모듈 시스템을 사용하는 코드
-function buildCJS(input) {
-  const parsed = path.parse(input);
-  return buildJS(
-    `src/${input}`,
-    `dist/cjs/${parsed.dir}/${parsed.name}.cjs`,
-    'cjs'
-  );
-}
-
-// ES 모듈 시스템을 사용하는 코드
-function buildESM(input) {
-  const parsed = path.parse(input);
-  return buildJS(
-    `src/${input}`,
-    `dist/esm/${parsed.dir}/${parsed.name}.js`,
-    'esm'
-  );
 }
 
 function buildDTS(input, module) {
@@ -77,8 +64,7 @@ function buildESMDTS(input) {
 }
 
 export default [
-  buildESM('index.ts'),
-  buildCJS('index.ts'),
+  buildJS('index.ts'),
   buildESMDTS('index.d.ts'),
   buildCJSDTS('index.d.ts'),
 ];

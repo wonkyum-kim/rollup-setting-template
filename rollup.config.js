@@ -1,5 +1,4 @@
 import path from 'path';
-import dts from 'rollup-plugin-dts';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
@@ -39,32 +38,4 @@ function buildJS(input) {
   };
 }
 
-function buildDTS(input, module) {
-  const parsed = path.parse(input);
-  const isESM = module === 'esm';
-  const dir = `dist/${isESM ? 'esm' : 'cjs'}/${parsed.dir}/`;
-  const ext = isESM ? '.ts' : '.cts';
-
-  return {
-    input: `./types/${input}`,
-    output: {
-      file: `${dir}${parsed.name}${ext}`,
-      format: module,
-    },
-    plugins: [dts()],
-  };
-}
-
-function buildCJSDTS(input) {
-  return buildDTS(input, 'cjs');
-}
-
-function buildESMDTS(input) {
-  return buildDTS(input, 'esm');
-}
-
-export default [
-  buildJS('index.ts'),
-  buildESMDTS('index.d.ts'),
-  buildCJSDTS('index.d.ts'),
-];
+export default [buildJS('index.ts')];

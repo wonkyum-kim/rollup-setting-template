@@ -4,9 +4,16 @@
   "description": "",
   "main": "index.js",
   "type": "module",
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/index.cjs",
+      "import": "./dist/esm/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf dist/* && tsc && rollup -c && rm -rf types"
+    "build": "rm -rf dist/* && tsc && rollup -c"
   },
   "keywords": [],
   "author": "",
@@ -20,7 +27,6 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
     "rollup": "^4.17.2",
-    "rollup-plugin-dts": "^6.1.0",
     "tslib": "^2.6.2",
     "typescript": "^5.4.5"
   },
